@@ -3,7 +3,6 @@
 **/*.log
 **/log/**
 tool/lua-server/log/
-tool/python-3.10/
 /bin/
 .cache/
 .local/share/nvim/*
