@@ -56,6 +56,13 @@ require("lazy").setup({
 			require("expand_config.marks")
 		end,
 	},
+	{
+		dir = plugins_dir .. "nvim-scrollview",
+		event = "VeryLazy",
+		config = function()
+			require("expand_config.scrollview")
+		end,
+	},
 
 	-- ============================================================
 	-- LSP (loaded when files are opened)
@@ -225,7 +232,7 @@ require("lazy").setup({
 	},
 	{
 		dir = plugins_dir .. "conform.nvim",
-		cmd = { "Format", "FormatWrite", "FormatToggle" },
+		event = "VeryLazy",
 		config = function()
 			require("expand_config.conform")
 		end,

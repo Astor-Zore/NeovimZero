@@ -52,16 +52,20 @@ wk.add({
 		{ "<leader>b<", "<Cmd>BufferLineMovePrev<CR>", desc = "Move left" },
 		-- Pick & Close
 		{ "<leader>bb", "<Cmd>BufferLinePick<CR>", desc = "Pick buffer" },
-		{ "<leader>bd", function()
-			local old_buf = vim.api.nvim_get_current_buf()
-			vim.cmd("bnext")
-			local new_buf = vim.api.nvim_get_current_buf()
-			if new_buf ~= old_buf then
-				vim.cmd("bdelete! " .. old_buf)
-			else
-				vim.cmd("qa")
-			end
-		end, desc = "Close buffer" },
+		{
+			"<leader>bd",
+			function()
+				local old_buf = vim.api.nvim_get_current_buf()
+				vim.cmd("bnext")
+				local new_buf = vim.api.nvim_get_current_buf()
+				if new_buf ~= old_buf then
+					vim.cmd("bdelete! " .. old_buf)
+				else
+					vim.cmd("qa")
+				end
+			end,
+			desc = "Close buffer",
+		},
 		{
 			"<leader>bo",
 			"<Cmd>BufferLineCloseOthers<CR>",
@@ -212,9 +216,17 @@ wk.add({
 		-- Telescope search symbol
 		{ "<leader>fT", "<cmd>SearchTags<CR>", desc = "Search current word" },
 		-- Telescope search buffer
-		{ "<leader>fb", "<cmd>:Telescope buffers<CR>",  desc = "Search buffers" },
+		{
+			"<leader>fb",
+			"<cmd>:Telescope buffers<CR>",
+			desc = "Search buffers",
+		},
 		-- Telescope search used file
-		{ "<leader>fo", "<cmd>:Telescope oldfiles<CR>", desc = "Search oled files" },
+		{
+			"<leader>fo",
+			"<cmd>:Telescope oldfiles<CR>",
+			desc = "Search oled files",
+		},
 
 		-- Flash search words
 		{ "s", "<cmd>FlashJump<CR>", desc = "Search word" },
@@ -231,7 +243,7 @@ wk.add({
 		{ "<leader>tm", "<cmd>ThemeMode<CR>", desc = "Theme mode switch" },
 		{ "<leader>tf", "<cmd>ThemeChoose<CR>", desc = "Theme mode switch" },
 
-		{ "<leader>g",  group = "gitsigns" },
+		{ "<leader>g", group = "gitsigns" },
 		{
 			"<leader>gn",
 			"<cmd>GitSignsNextHunk<CR>",
