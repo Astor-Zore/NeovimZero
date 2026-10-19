@@ -42,5 +42,4 @@ require("basic_setting.settings")
 require("basic_setting.theme")
 
 -- Utility modules
-require("expand_config.auto_fold")
 require("expand_config.tab-mode")

@@ -50,13 +50,6 @@ require("lazy").setup({
 		end,
 	},
 	{
-		dir = plugins_dir .. "marks.nvim",
-		event = "VeryLazy",
-		config = function()
-			require("expand_config.marks")
-		end,
-	},
-	{
 		dir = plugins_dir .. "nvim-scrollview",
 		event = "VeryLazy",
 		config = function()
