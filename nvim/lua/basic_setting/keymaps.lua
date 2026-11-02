@@ -232,8 +232,8 @@ wk.add({
 		{ "s", "<cmd>FlashJump<CR>", desc = "Search word" },
 
 		-- Neoscroll keybindings
-		{ "<C-k>", "<cmd>Scroll -5<CR>", desc = "scroll up" },
-		{ "<C-j>", "<cmd>Scroll 5<CR>", desc = "scroll down" },
+		{ "<C-k>", "<cmd>ScrollHalfUp<CR>", desc = "scroll up fast" },
+		{ "<C-j>", "<cmd>ScrollHalfDown<CR>", desc = "scroll down fast" },
 
 		-- Fommatter keybindings
 		{ "<leader>FF", "<cmd>Format<CR>", desc = "format code" },

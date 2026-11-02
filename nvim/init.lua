@@ -7,10 +7,13 @@ vim.g.clipboard = {
 	},
 	paste = {
 		["+"] = function()
-			return vim.fn.getreg('"')
+			return {
+				vim.fn.split(vim.fn.getreg('"'), "\n"),
+				vim.fn.getregtype('"'),
+			}
 		end,
 		["*"] = function()
-			return vim.fn.getreg('"')
+			return { vim.fn.getreg('"') }, "v"
 		end,
 	},
 }
