@@ -102,6 +102,8 @@ vim.api.nvim_create_user_command("FindFiles", function()
     local layout = get_adaptive_layout(char_aspect_ratio)
     require("telescope.builtin").find_files(vim.tbl_extend("force", layout, {
         initial_mode = "insert",
+	no_ignore = true,
+	hidden = true,
     }))
 end, { nargs = 0 })
 
@@ -109,6 +111,7 @@ vim.api.nvim_create_user_command("FindGrep", function()
     local layout = get_adaptive_layout(char_aspect_ratio)
     require("telescope.builtin").live_grep(vim.tbl_extend("force", layout, {
         initial_mode = "insert",
+	additional_args = { "--no-ignore" },
     }))
 end, { nargs = 0 })
 

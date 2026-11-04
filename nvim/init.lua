@@ -46,3 +46,4 @@ require("basic_setting.theme")
 
 -- Utility modules
 require("expand_config.tab-mode")
+require("expand_config.terminal")
