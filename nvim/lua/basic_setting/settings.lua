@@ -67,9 +67,12 @@ end
 -- Get configuration value
 function func.get_config(key, category)
 	category = category or "options"
-	-- print("Get config " .. category .. "." .. key ..
-	-- 	" "..(tostring(config[category][key])))
-	return config[category] and config[category][key] or nil
+	-- 注意：值本身可能是 false，不能用 `a and b or c` 写法
+	-- （b 为 false 时会错误地返回 c/nil）
+	if config[category] == nil then
+		return nil
+	end
+	return config[category][key]
 end
 
 -- Create new command

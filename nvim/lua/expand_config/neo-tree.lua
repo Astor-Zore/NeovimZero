@@ -31,12 +31,24 @@ vim.api.nvim_create_user_command("NeotreeToggleCurrent", function()
 end, { nargs = 0 })
 
 -- Main neo-tree configuration
+
+-- git 状态开关（持久化到 nvim-settings.json 的 custom.git_status）
+-- 关闭原因：WSL 无网络时用的是 Windows git，每次 git 调用都要走
+-- WSL interop 跨系统往返（status ~2s, ls-files ~9s），neo-tree 对每个
+-- 文件做 git status / check-ignore 会导致打开目录卡顿数秒。
+-- 用 :GitToggle 随时开关，关闭时 neo-tree 完全不碰 git。
+local settings = require("basic_setting.settings")
+local git_enabled = settings.get_config("git_status", "custom")
+if git_enabled == nil then
+	git_enabled = true -- 默认开启
+end
+
 require("neo-tree").setup({
 	-- Basic settings
 	sources = { "filesystem", "buffers", "git_status", "document_symbols" },
 	close_if_last_window = false, -- Close neo-tree if it's the last window
 	enable_diagnostics = true, -- Show diagnostics (works with COC)
-	enable_git_status = true, -- Show git status indicators
+	enable_git_status = git_enabled, -- Show git status indicators（:GitToggle 可关）
 	default_source = "filesystem", -- Default to filesystem view
 
 	-- Window configuration
@@ -71,13 +83,15 @@ require("neo-tree").setup({
 			leave_dirs_open = false, -- Close auto-expanded directories when leaving
 		},
 		hijack_netrw_behavior = "disabled", -- Disable netrw integration
-		use_libuv_file_watcher = false, -- Use libuv for better file watching performance
+		use_libuv_file_watcher = true, -- 增量刷新，避免全量重扫目录
 
 		-- File filtering settings
 		filtered_items = {
 			visible = false, -- Hide filtered items by default
 			hide_dotfiles = true,
-			hide_gitignored = true,
+			-- gitignore 过滤对每个文件跑一次 git check-ignore，
+			-- Windows git 下同样是卡顿源，随总开关一起关闭
+			hide_gitignored = git_enabled,
 			never_show = { -- Always hide these items
 				".git",
 				"node_modules",
@@ -148,3 +162,6 @@ require("neo-tree").setup({
 		},
 	},
 })
+
+-- :GitToggle / :GitStatusInfo 命令注册在 expand_config.git_toggle
+-- （独立于 neo-tree 的懒加载，随时可用）

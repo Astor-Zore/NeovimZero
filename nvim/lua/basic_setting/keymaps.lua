@@ -291,10 +291,6 @@ wk.add({
 		mode = { "n", "t" },
 		{ "<C-t>", "<cmd>TermToggle<CR>", desc = "Toggle terminal" },
 	},
-	{
-		mode = "t",
-		{ "<Esc>", [[<C-\><C-n>]], desc = "Exit terminal mode" },
-	},
 
 	-- Both insert and nomal mode keybindings
 	{

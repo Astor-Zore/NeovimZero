@@ -46,4 +46,6 @@ require("basic_setting.theme")
 
 -- Utility modules
 require("expand_config.tab-mode")
+require("expand_config.project_style")
+require("expand_config.git_toggle")
 require("expand_config.terminal")
