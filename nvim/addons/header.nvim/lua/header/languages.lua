@@ -2,7 +2,8 @@ local languages = {}
 
 languages.cpp = function()
     return {
-        block = { start = "/*", line = " *", ["end"] = " */" },
+        -- Doxygen 文件头：块注释起始 "/**"，行前缀 " *"，结束 " */"
+        block = { start = "/**", line = " *", ["end"] = " */" },
         line = { start = nil, line = "//", ["end"] = nil },
     }
 end

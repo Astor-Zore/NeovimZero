@@ -17,11 +17,13 @@ M.defaults = {
 }
 
 M.constants = {
-    file_name = "File name:",
-    date_created = "Date created:",
-    author = "Author:",
-    project = "Project:",
-    date_modified = "Date modified:",
+    -- Doxygen 文件头标签；max_tag_len 用于表格对齐（值列起始列）
+    file_name = "@file",
+    date_created = "@date",
+    author = "@author",
+    project = "@project",
+    date_modified = "@modified",
+    max_tag_len = 12, -- "@date_modified" 之类最长标签 + 对齐空格
 }
 
 function M.read_config_file()

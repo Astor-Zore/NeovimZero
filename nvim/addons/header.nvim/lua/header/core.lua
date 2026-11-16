@@ -73,30 +73,41 @@ function M.add_headers(header)
         local file = vim.fn.expand("%:t")
         local created = os.date(header.config.date_created_fmt, vim.fn.getftime(vim.fn.expand("%")))
 
+        -- 按最长标签对齐，形成表格效果：
+        --   @file      a.c
+        --   @author    Astor.Jiang
+        --   @date      2026-11-16 ...
+        local align = header.constants.max_tag_len
+            or (#header.constants.file_name + 1)
+        local function pad(tag)
+            return tag .. string.rep(" ", align - #tag)
+        end
+
         local hdrs = {}
         if header.config.file_name then
-            table.insert(hdrs, header.constants.file_name .. " " .. file)
+            table.insert(hdrs, pad(header.constants.file_name) .. file)
         end
         if header.config.project then
-            table.insert(hdrs, header.constants.project .. " " .. header.config.project)
+            table.insert(hdrs, pad(header.constants.project) .. header.config.project)
         end
         if header.config.author then
-            table.insert(hdrs, header.constants.author .. " " .. header.config.author)
+            table.insert(hdrs, pad(header.constants.author) .. header.config.author)
         end
         if header.config.date_created then
-            table.insert(hdrs, header.constants.date_created .. " " .. created)
+            table.insert(hdrs, pad(header.constants.date_created) .. created)
         end
         if header.config.date_modified then
-            table.insert(hdrs, header.constants.date_modified .. " " .. os.date(header.config.date_modified_fmt))
-        end
-        if header.config.line_separator then
-            table.insert(hdrs, header.config.line_separator)
+            table.insert(hdrs, pad(header.constants.date_modified) .. os.date(header.config.date_modified_fmt))
         end
         if header.config.copyright_text then
+            local texts = {}
             if type(header.config.copyright_text) == "string" then
-                vim.list_extend(hdrs, util.string_to_table(header.config.copyright_text))
+                texts = util.string_to_table(header.config.copyright_text)
             else
-                vim.list_extend(hdrs, header.config.copyright_text)
+                texts = header.config.copyright_text
+            end
+            for _, t in ipairs(texts) do
+                table.insert(hdrs, pad("@copyright") .. t)
             end
         end
         cb(hdrs)
@@ -158,7 +169,12 @@ function M.update_date_modified(header)
             local prefix = (comments_table.line and comments_table.line.line)
                 or (comments_table.block and comments_table.block.line)
                 or ""
-            lines[i] = prefix .. " " .. header.constants.date_modified .. " " .. modified
+            local align = header.constants.max_tag_len
+                or (#header.constants.date_modified + 1)
+            lines[i] = prefix .. " "
+                .. header.constants.date_modified
+                .. string.rep(" ", align - #header.constants.date_modified)
+                .. modified
             updated = true
             break
         end
